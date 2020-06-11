@@ -49,8 +49,15 @@ namespace Assessment_CS {
                     select x);
         }
 
+        public static IEnumerable<Pessoa> BuscarTodasPessoas(DateTime data) {
+            return (from x in BuscarTodasPessoas()
+                    where x.birth.Day == data.Day && x.birth.Month == data.Month
+                    orderby x.birth
+                    select x);
+        }
+
         public static void Salvar(Pessoa pessoa) {
-            if (PessoaExistente(pessoa)) {
+            if (!PessoaExistente(pessoa)) {
              
             } else {
                 CriarPessoa(pessoa);

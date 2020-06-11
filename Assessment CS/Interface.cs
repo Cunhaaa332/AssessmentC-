@@ -7,6 +7,10 @@ namespace Assessment_CS {
     public static class Interface {
         public static void MenuPrincipal() {
             Console.Clear();
+            Console.WriteLine("Aniversariantes diarios!");
+            Console.WriteLine("-------------------------------------------");
+            AniversarianteDoDia();
+            Console.WriteLine("-------------------------------------------");
             Console.WriteLine("Escolha uma das opcoes abaixo: ");
             Console.WriteLine("1 - Pesquisar Pessoa ");
             Console.WriteLine("2 - Adicionar Pessoas ");
@@ -26,6 +30,20 @@ namespace Assessment_CS {
                 default:
                     Console.WriteLine("Opcao errada amigao!");
                     break;
+            }
+        }
+
+        private static void AniversarianteDoDia() {
+            int i = 0;
+            DateTime hj = DateTime.Today;
+            var niverToday = Dados.BuscarTodasPessoas(hj);
+            if (niverToday.Count() == 0) {
+                Console.WriteLine("Nenhum aniversario hj amigao!!");
+            } else {
+                foreach (var pessoa in niverToday) {
+                    Console.WriteLine(i + " - " + pessoa.nome + " " + pessoa.sobreNome);
+                    i++;
+                }
             }
         }
 
