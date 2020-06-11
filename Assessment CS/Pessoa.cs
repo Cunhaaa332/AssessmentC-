@@ -14,6 +14,13 @@ namespace Assessment_CS {
         public Pessoa() {
         }
 
+        public Pessoa(int id, String Nome, String Sobrenome, DateTime data) {
+            Id = id;
+            nome = Nome;
+            sobreNome = Sobrenome;
+            birth = data;
+        }
+
         public Pessoa(String Nome, String Sobrenome, DateTime data) {
             nome = Nome;
             sobreNome = Sobrenome;

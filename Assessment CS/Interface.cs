@@ -34,15 +34,13 @@ namespace Assessment_CS {
         }
 
         private static void AniversarianteDoDia() {
-            int i = 0;
             DateTime hj = DateTime.Today;
             var niverToday = Dados.BuscarTodasPessoas(hj);
             if (niverToday.Count() == 0) {
                 Console.WriteLine("Nenhum aniversario hj amigao!!");
             } else {
                 foreach (var pessoa in niverToday) {
-                    Console.WriteLine(i + " - " + pessoa.nome + " " + pessoa.sobreNome);
-                    i++;
+                    Console.WriteLine(pessoa.Id + " - " + pessoa.nome + " " + pessoa.sobreNome);
                 }
             }
         }
@@ -57,7 +55,14 @@ namespace Assessment_CS {
 
             DateTime aniversarioD = RecebeETransformaData();
 
+            var pessoas = Dados.BuscarTodasPessoas();
+
             Pessoa p = new Pessoa(nome, sobreNome, aniversarioD);
+
+            foreach (var pessoa in pessoas) {
+                Pessoa ultimo = pessoas.Last(x => x.Id == pessoa.Id);
+                p.Id = ultimo.Id + 1;
+            }
 
             Console.WriteLine(p);
             Console.WriteLine("");
@@ -107,7 +112,7 @@ namespace Assessment_CS {
                 Console.WriteLine("Pesssoas Encontradas: ");
 
                 foreach (var pessoa in listaDePessoasEncontradas) {
-                    Console.WriteLine(i + " - " + pessoa.nome + " " + pessoa.sobreNome);
+                    Console.WriteLine(pessoa.Id + " - " + pessoa.nome + " " + pessoa.sobreNome);
                     i++;
                 }
 
@@ -118,7 +123,7 @@ namespace Assessment_CS {
                 if (escolha > i || escolha < 0) {
                     Console.WriteLine("Escolha errada amigao!");
                 } else {
-                    Console.WriteLine(listaDePessoasEncontradas.ElementAt(escolha));
+                    Console.WriteLine(Dados.BuscarPessoaPorId(escolha));
                 }
             }       
             VoltarProMenu();

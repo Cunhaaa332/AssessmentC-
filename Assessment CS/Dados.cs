@@ -27,12 +27,13 @@ namespace Assessment_CS {
                 string[] dadosDaPessoa = pessoas[i].Split(',');
 
                 //identificar cada dado da pessoa
-                string nome = dadosDaPessoa[0];
-                string sobreNome = dadosDaPessoa[1];
-                DateTime dataDeAniversario = Convert.ToDateTime(dadosDaPessoa[2]);
+                int id = int.Parse(dadosDaPessoa[0]);
+                string nome = dadosDaPessoa[1];
+                string sobreNome = dadosDaPessoa[2];
+                DateTime dataDeAniversario = Convert.ToDateTime(dadosDaPessoa[3]);
 
                 //preencher a classe pessoa com esses dados
-                Pessoa pessoa = new Pessoa(nome, sobreNome, dataDeAniversario);
+                Pessoa pessoa = new Pessoa(id, nome, sobreNome, dataDeAniversario);
 
                 //adicionar em uma lista essa pessoa
                 listaPessoasEncontradas.Add(pessoa);
@@ -57,7 +58,7 @@ namespace Assessment_CS {
         }
 
         public static void Salvar(Pessoa pessoa) {
-            if (!PessoaExistente(pessoa)) {
+            if (PessoaExistente(pessoa)) {
              
             } else {
                 CriarPessoa(pessoa);
@@ -95,7 +96,7 @@ namespace Assessment_CS {
         public static void CriarPessoa(Pessoa pessoa) {
             string arquivo = RecebeArquivo();
 
-            string formatacao = $"{pessoa.nome},{pessoa.sobreNome},{pessoa.birth};";
+            string formatacao = $"{pessoa.Id},{pessoa.nome},{pessoa.sobreNome},{pessoa.birth};";
 
             File.AppendAllText(arquivo, formatacao);
         }
