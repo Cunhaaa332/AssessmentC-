@@ -43,6 +43,31 @@ namespace Assessment_CS {
             return listaPessoasEncontradas;
         }
 
+        public static void Editar(Pessoa p) {
+            string nomeDoArquivo = RecebeArquivo();
+            var todasPessoas = BuscarTodasPessoas();
+            List<Pessoa> listaPessoasAtt = new List<Pessoa>();
+            foreach (var pessoa in todasPessoas) {
+                if (p.Id == pessoa.Id) {
+                    listaPessoasAtt.Add(p);
+                } else {
+                    listaPessoasAtt.Add(pessoa);
+                }
+            }
+
+            File.Delete(RecebeArquivo());
+            FileStream arquivo;
+            if (!File.Exists(nomeDoArquivo)) {
+                arquivo = File.Create(nomeDoArquivo);
+                arquivo.Close();
+            }
+
+            foreach (var pessoa in listaPessoasAtt) {
+                Salvar(pessoa);
+            }
+
+        }
+
         public static IEnumerable<Pessoa> BuscarTodasPessoas(string nome) {
             return (from x in BuscarTodasPessoas()
                     where x.nome.Contains(nome, StringComparison.InvariantCultureIgnoreCase)
@@ -58,11 +83,11 @@ namespace Assessment_CS {
         }
 
         public static void Salvar(Pessoa pessoa) {
-            if (PessoaExistente(pessoa)) {
-             
-            } else {
-                CriarPessoa(pessoa);
-            }
+            // if (PessoaExistente(pessoa)) {
+
+            // } else {
+            CriarPessoa(pessoa);
+            //}
         }
 
         private static bool PessoaExistente(Pessoa pessoa) {
@@ -78,7 +103,7 @@ namespace Assessment_CS {
         }
 
         public static Pessoa BuscarPessoaPorId(int id) {
-       
+
             return (from x in BuscarTodasPessoas()
                     where x.Id == id
                     select x).FirstOrDefault();

@@ -9,7 +9,7 @@ namespace Assessment_CS {
         public int Id { get; set; }
         public string nome { get; set; }
         public string sobreNome { get; set; }
-        public DateTime birth { get; private set; }
+        public DateTime birth { get; set; }
 
         public Pessoa() {
         }
