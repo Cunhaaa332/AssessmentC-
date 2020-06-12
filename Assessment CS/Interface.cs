@@ -15,7 +15,8 @@ namespace Assessment_CS {
             Console.WriteLine("1 - Pesquisar Pessoa ");
             Console.WriteLine("2 - Adicionar Pessoas ");
             Console.WriteLine("3 - Editar Pessoa ");
-            Console.WriteLine("4 - Sair ");
+            Console.WriteLine("4 - Deletar ");
+            Console.WriteLine("5 - Sair ");
             int opcao = int.Parse(Console.ReadLine());
 
             switch (opcao) {
@@ -41,7 +42,42 @@ namespace Assessment_CS {
         }
 
         private static void Deletar() {
-            throw new NotImplementedException();
+            int i = 0;
+            Console.Clear();
+            Console.WriteLine("Entre com o nome da pessoa que deseja deletar:");
+            string[] nomeESobrenome = Console.ReadLine().Split(' ');
+            string nome = nomeESobrenome[0];
+
+
+            var listaDePessoasEncontradas = Dados.BuscarTodasPessoas(nome);
+
+            if (listaDePessoasEncontradas.Count() == 0) {
+                Console.WriteLine("Nenhum usuario Encontrado");
+            } else {
+                Console.WriteLine("");
+                Console.WriteLine("Pesssoas Encontradas: ");
+
+                foreach (var pessoa in listaDePessoasEncontradas) {
+                    Console.WriteLine(pessoa.Id + " - " + pessoa.nome + " " + pessoa.sobreNome);
+                    i++;
+                }
+
+                Console.WriteLine("");
+                Console.WriteLine("Digite o numero correspondente a pessoa que deseja deletar: ");
+                int escolha = int.Parse(Console.ReadLine());
+
+                foreach (var pessoa in listaDePessoasEncontradas) {
+                    if (pessoa.Id == escolha) {
+                        Dados.Deletar(escolha);
+
+                        Console.WriteLine("Pessoa deletada!");
+                    } else {
+                        Console.WriteLine("Escolha Errada Amigao!");
+                        break;
+                    }
+                }
+            }
+            VoltarProMenu();
         }
 
         private static void EditarPessoa() {
@@ -68,8 +104,6 @@ namespace Assessment_CS {
                 Console.WriteLine("");
                 Console.WriteLine("Digite o numero correspondente a pessoa que deseja editar: ");
                 int escolha = int.Parse(Console.ReadLine());
-
-                var pessoas = Dados.BuscarTodasPessoas();
 
                 foreach (var pessoa in listaDePessoasEncontradas) {
                     if (pessoa.Id == escolha) {

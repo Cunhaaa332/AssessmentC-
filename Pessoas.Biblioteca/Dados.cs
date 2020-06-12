@@ -43,8 +43,31 @@ namespace Assessment_CS {
             return listaPessoasEncontradas;
         }
 
-        public static void Editar(Pessoa p) {
+        public static void Deletar(int id) {
+            var todasPessoas = BuscarTodasPessoas();
+            List<Pessoa> listaPessoasAtt = new List<Pessoa>();
+            foreach (var pessoa in todasPessoas) {
+                if (id == pessoa.Id) {
+                    todasPessoas.ToList().Remove(pessoa);
+                } else {
+                    listaPessoasAtt.Add(pessoa);
+                }
+            }
+
             string nomeDoArquivo = RecebeArquivo();
+            File.Delete(RecebeArquivo());
+            FileStream arquivo;
+            if (!File.Exists(nomeDoArquivo)) {
+                arquivo = File.Create(nomeDoArquivo);
+                arquivo.Close();
+            }
+
+            foreach (var pessoa in listaPessoasAtt) {
+                Salvar(pessoa);
+            }
+        }
+
+        public static void Editar(Pessoa p) {
             var todasPessoas = BuscarTodasPessoas();
             List<Pessoa> listaPessoasAtt = new List<Pessoa>();
             foreach (var pessoa in todasPessoas) {
@@ -55,6 +78,7 @@ namespace Assessment_CS {
                 }
             }
 
+            string nomeDoArquivo = RecebeArquivo();
             File.Delete(RecebeArquivo());
             FileStream arquivo;
             if (!File.Exists(nomeDoArquivo)) {
