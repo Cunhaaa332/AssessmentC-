@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Assessment_CS {
-    class Pessoa {
+    public class Pessoa {
         [Key]
         public int Id { get; set; }
         public string nome { get; set; }

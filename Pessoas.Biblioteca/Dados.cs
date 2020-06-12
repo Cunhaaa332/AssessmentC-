@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 
 namespace Assessment_CS {
-    class Dados {
+    public class Dados {
 
         public static IEnumerable<Pessoa> BuscarTodasPessoas() {
             string nomeDoArquivo = RecebeArquivo();

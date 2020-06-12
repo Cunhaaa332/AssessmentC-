@@ -6,4 +6,8 @@
     <RootNamespace>Assessment_CS</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Pessoas.Biblioteca\Pessoas.Biblioteca.csproj" />
+  </ItemGroup>
+
 </Project>
