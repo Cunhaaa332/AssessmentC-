@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Pessoas.Biblioteca;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Assessment_CS {
-    public static class Interface {
+    public static class MetodosTelas {
         public static void MenuPrincipal() {
             Console.Clear();
             Console.WriteLine("Aniversariantes diarios!");
@@ -42,12 +43,10 @@ namespace Assessment_CS {
         }
 
         private static void Deletar() {
-            int i = 0;
             Console.Clear();
             Console.WriteLine("Entre com o nome da pessoa que deseja deletar:");
             string[] nomeESobrenome = Console.ReadLine().Split(' ');
             string nome = nomeESobrenome[0];
-
 
             var listaDePessoasEncontradas = Dados.BuscarTodasPessoas(nome);
 
@@ -56,24 +55,18 @@ namespace Assessment_CS {
             } else {
                 Console.WriteLine("");
                 Console.WriteLine("Pesssoas Encontradas: ");
-
                 foreach (var pessoa in listaDePessoasEncontradas) {
                     Console.WriteLine(pessoa.Id + " - " + pessoa.nome + " " + pessoa.sobreNome);
-                    i++;
                 }
 
-                Console.WriteLine("");
+
                 Console.WriteLine("Digite o numero correspondente a pessoa que deseja deletar: ");
                 int escolha = int.Parse(Console.ReadLine());
 
                 foreach (var pessoa in listaDePessoasEncontradas) {
                     if (pessoa.Id == escolha) {
                         Dados.Deletar(escolha);
-
                         Console.WriteLine("Pessoa deletada!");
-                    } else {
-                        Console.WriteLine("Escolha Errada Amigao!");
-                        break;
                     }
                 }
             }
@@ -81,7 +74,6 @@ namespace Assessment_CS {
         }
 
         private static void EditarPessoa() {
-            int i = 0;
             Console.Clear();
             Console.WriteLine("Entre com o nome da pessoa que deseja editar:");
             string[] nomeESobrenome = Console.ReadLine().Split(' ');
@@ -98,7 +90,6 @@ namespace Assessment_CS {
 
                 foreach (var pessoa in listaDePessoasEncontradas) {
                     Console.WriteLine(pessoa.Id + " - " + pessoa.nome + " " + pessoa.sobreNome);
-                    i++;
                 }
 
                 Console.WriteLine("");
@@ -119,9 +110,6 @@ namespace Assessment_CS {
                         Dados.Editar(pessoaNova);
 
                         Console.WriteLine("Pessoa alterada!");
-                    } else {
-                        Console.WriteLine("Escolha Errada Amigao!");
-                        break;
                     }
                 }
             }
@@ -191,7 +179,6 @@ namespace Assessment_CS {
         }
 
         public static void BuscaPessoa() {
-            int i = 0;
             Console.Clear();
             Console.WriteLine("Entre com o nome da pessoa que deseja buscar:");
             string[] nomeESobrenome = Console.ReadLine().Split(' ');
@@ -208,17 +195,17 @@ namespace Assessment_CS {
 
                 foreach (var pessoa in listaDePessoasEncontradas) {
                     Console.WriteLine(pessoa.Id + " - " + pessoa.nome + " " + pessoa.sobreNome);
-                    i++;
                 }
 
                 Console.WriteLine("");
                 Console.WriteLine("Digite o numero correspondente a pessoa que deseja ter mais detalhes: ");
                 int escolha = int.Parse(Console.ReadLine());
 
-                if (escolha > i || escolha < 0) {
-                    Console.WriteLine("Escolha errada amigao!");
-                } else {
-                    Console.WriteLine(Dados.BuscarPessoaPorId(escolha));
+                foreach (var pessoa in listaDePessoasEncontradas) {
+                    if (pessoa.Id == escolha) {
+                        Console.WriteLine(Dados.BuscarPessoaPorId(escolha));
+
+                    }
                 }
             }
             VoltarProMenu();
@@ -235,5 +222,7 @@ namespace Assessment_CS {
                 VoltarProMenu();
             }
         }
+
+        private static IDados Dados = new Dados();
     }
 }

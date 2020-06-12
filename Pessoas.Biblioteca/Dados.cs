@@ -4,10 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Assessment_CS {
-    public class Dados {
+namespace Pessoas.Biblioteca {
+    public class Dados : IDados {
 
-        public static IEnumerable<Pessoa> BuscarTodasPessoas() {
+        public IEnumerable<Pessoa> BuscarTodasPessoas() {
             string nomeDoArquivo = RecebeArquivo();
 
             FileStream arquivo;
@@ -43,31 +43,19 @@ namespace Assessment_CS {
             return listaPessoasEncontradas;
         }
 
-        public static void Deletar(int id) {
+        public void Deletar(int id) {
             var todasPessoas = BuscarTodasPessoas();
             List<Pessoa> listaPessoasAtt = new List<Pessoa>();
             foreach (var pessoa in todasPessoas) {
-                if (id == pessoa.Id) {
-                    todasPessoas.ToList().Remove(pessoa);
-                } else {
+                if (id != pessoa.Id) {
                     listaPessoasAtt.Add(pessoa);
+                } else {
                 }
             }
-
-            string nomeDoArquivo = RecebeArquivo();
-            File.Delete(RecebeArquivo());
-            FileStream arquivo;
-            if (!File.Exists(nomeDoArquivo)) {
-                arquivo = File.Create(nomeDoArquivo);
-                arquivo.Close();
-            }
-
-            foreach (var pessoa in listaPessoasAtt) {
-                Salvar(pessoa);
-            }
+            ApagaRecebeECria(listaPessoasAtt);
         }
 
-        public static void Editar(Pessoa p) {
+        public void Editar(Pessoa p) {
             var todasPessoas = BuscarTodasPessoas();
             List<Pessoa> listaPessoasAtt = new List<Pessoa>();
             foreach (var pessoa in todasPessoas) {
@@ -77,7 +65,24 @@ namespace Assessment_CS {
                     listaPessoasAtt.Add(pessoa);
                 }
             }
+            ApagaRecebeECria(listaPessoasAtt);
+        }
 
+        public IEnumerable<Pessoa> BuscarTodasPessoas(string nome) {
+            return (from x in BuscarTodasPessoas()
+                    where x.nome.Contains(nome, StringComparison.InvariantCultureIgnoreCase)
+                    orderby x.nome
+                    select x);
+        }
+
+        public IEnumerable<Pessoa> BuscarTodasPessoas(DateTime data) {
+            return (from x in BuscarTodasPessoas()
+                    where x.birth.Day == data.Day && x.birth.Month == data.Month
+                    orderby x.birth
+                    select x);
+        }
+
+        public void ApagaRecebeECria(List<Pessoa> listaPessoasAtt) {
             string nomeDoArquivo = RecebeArquivo();
             File.Delete(RecebeArquivo());
             FileStream arquivo;
@@ -89,24 +94,9 @@ namespace Assessment_CS {
             foreach (var pessoa in listaPessoasAtt) {
                 Salvar(pessoa);
             }
-
         }
 
-        public static IEnumerable<Pessoa> BuscarTodasPessoas(string nome) {
-            return (from x in BuscarTodasPessoas()
-                    where x.nome.Contains(nome, StringComparison.InvariantCultureIgnoreCase)
-                    orderby x.nome
-                    select x);
-        }
-
-        public static IEnumerable<Pessoa> BuscarTodasPessoas(DateTime data) {
-            return (from x in BuscarTodasPessoas()
-                    where x.birth.Day == data.Day && x.birth.Month == data.Month
-                    orderby x.birth
-                    select x);
-        }
-
-        public static void Salvar(Pessoa pessoa) {
+        public void Salvar(Pessoa pessoa) {
             // if (PessoaExistente(pessoa)) {
 
             // } else {
@@ -114,7 +104,7 @@ namespace Assessment_CS {
             //}
         }
 
-        private static bool PessoaExistente(Pessoa pessoa) {
+        public bool PessoaExistente(Pessoa pessoa) {
             var id = pessoa.Id;
 
             var pessoasEncontradas = BuscarPessoaPorId(id);
@@ -126,14 +116,14 @@ namespace Assessment_CS {
             }
         }
 
-        public static Pessoa BuscarPessoaPorId(int id) {
+        public Pessoa BuscarPessoaPorId(int id) {
 
             return (from x in BuscarTodasPessoas()
                     where x.Id == id
                     select x).FirstOrDefault();
         }
 
-        private static string RecebeArquivo() {
+        public string RecebeArquivo() {
             var pasta = Environment.SpecialFolder.Desktop;
 
             string pastaNoDesktop = Environment.GetFolderPath(pasta);
@@ -142,7 +132,7 @@ namespace Assessment_CS {
             return pastaNoDesktop + nomeDoArquivo;
         }
 
-        public static void CriarPessoa(Pessoa pessoa) {
+        public void CriarPessoa(Pessoa pessoa) {
             string arquivo = RecebeArquivo();
 
             string formatacao = $"{pessoa.Id},{pessoa.nome},{pessoa.sobreNome},{pessoa.birth};";

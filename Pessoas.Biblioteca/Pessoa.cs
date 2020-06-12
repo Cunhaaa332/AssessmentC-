@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Assessment_CS {
+namespace Pessoas.Biblioteca {
     public class Pessoa {
         [Key]
         public int Id { get; set; }
